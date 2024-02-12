@@ -1,5 +1,7 @@
 .main {
-    background-color: #333333;
+    background-image: url(../images/home/pic-exterior.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     color: #FFFFFF;
     min-width: 375px;
     min-height: 531px;
@@ -74,6 +76,32 @@
     }
 
 
+}
 
-
+@media only screen and (min-width: 1000px){
+    .taketour_section-header-rect{
+        height: 100px;
+        width: 100%;
+    }
+    .taketour_section-content{
+        width: 70%;
+        max-width: 1024px;
+        p{
+            margin-top: 130px;
+            font-size: 14px;
+        }
+        h1{
+            font-size: 120px;
+            line-height: 130px;
+            letter-spacing: -3.6px;
+            max-width: 825px;
+        }
+    }
+    .taketour_section-button-content{
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+    .button-learnmore{
+        margin: 0 50px 65px;
+    }
 }

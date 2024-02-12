@@ -1,0 +1,149 @@
+.footer {
+    background-image: url("../images/footer/background.svg");
+    background-repeat: no-repeat;
+    background-size: auto;
+    padding: 32px 22px;
+    font-family: "Archivo";
+
+    &__container_logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 245.11px;
+        height: 80px;
+    }
+
+    &__H {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+        background-color: #BEAD8E;
+        font-size: 35px;
+    }
+
+    &__HB-hotel {
+        font-weight: 600;
+        display: block;
+        font-size: 25px;
+    }
+
+    &__HB-blink {
+        font-weight: 600;
+        display: block;
+        font-size: 25px;
+    }
+
+    &__text {
+        margin: 18px 0;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #777777;
+    }
+
+    &__socials {
+        padding: 18px 0;
+    }
+
+    &__services {
+        padding: 18px 0;
+
+        & h2 {
+            font-family: "Old Standard TT";
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0px;
+            text-align: left;
+            color: #222222;
+        }
+
+        &-list {
+            font-family: "Roboto";
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 48px;
+            letter-spacing: 0px;
+            color: #777777;
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            gap: 2;
+            margin: 24px 0;
+
+            & li {
+                list-style: none;
+            }
+        }
+    }
+
+    &__contact {
+        & h2 {
+            font-family: "Old Standard TT";
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0px;
+            text-align: left;
+            color: #222222;
+        }
+
+        &_list {
+            display: flex;
+            margin-top: 34px;
+
+            & img {
+                max-width: 40px;
+            }
+
+            & h3 {
+                font-family: "Old Standard TT";
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 0px;
+                text-align: left;
+                color: #222222;
+            }
+
+            & span {
+                font-family: "Roboto";
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 16px;
+                letter-spacing: 0px;
+                text-align: left;
+                color: #777777;
+            }
+
+            &-content {
+                margin-left: 21px;
+            }
+        }
+    }
+
+    &__copyright {
+        padding: 20px;
+        margin: 34px -22px -32px -22px;
+        background: #F8F8F8;
+        font-family: "Roboto";
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19px;
+        letter-spacing: -0.47999998927116394px;
+        text-align: left;
+
+        &-by {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.main {
+    height: 50vh;
+    background-color: #777777;
+}

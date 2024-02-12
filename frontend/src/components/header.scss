@@ -1,0 +1,188 @@
+.header {
+    display: flex;
+    height: 70px;
+    min-width: 375px;
+    width: 100%;
+    position: relative;
+
+    &__icon {
+        height: 13px;
+        width: 20px
+    }
+
+    &__menu {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 24px;
+    }
+
+    &__menuLeft {
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 27px;
+    }
+
+
+    &__container_logo {
+        gap: 10px;
+        align-items: center;
+        display: flex;
+    }
+
+    &__menuRight {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 15px;
+        gap: 20px;
+    }
+
+
+
+    &__icon--ham img {
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+
+
+
+    &__H {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+        margin-left: 30px;
+        box-shadow: 0px 14px 24px 0px #8B8B8B40;
+    }
+
+
+    &__HB {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        height: 20px;
+        width: 60px;
+    }
+
+    &__HM-hotel {
+        font-weight: bold;
+    }
+
+    &__HM-hotel,
+    &__HM-blink {
+        letter-spacing: 2px;
+        display: block;
+        font-size: 11px;
+    }
+
+
+    &__toogle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 197px;
+        width: 375px;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px 4px #0000004A;
+        position: absolute;
+        top: 70px;
+        padding-left: 28px;
+
+        &-links {
+            text-decoration: none;
+            font-family: Archivo;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 17px;
+            color: #111111;
+
+        }
+    }
+}
+
+.isActive {
+    display: flex;
+}
+
+@media screen and (min-width: 1024px) {
+    .header {
+        background: #222222;
+        max-height: 100px;
+        box-shadow: none;
+        display: flex;
+        flex-wrap: wrap;
+
+        &__icon {
+            display: none;
+        }
+
+        &__menu {
+            padding: 0 18px;
+            height: 60px;
+            max-width: 70%;
+            margin: 40px auto 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0px 3px 6px 0px #0000002f;
+
+            &__logo {
+
+                &_section {
+                    margin-right: 24px;
+                }
+
+                &_section-H {
+                    min-width: 80px;
+                    height: 80px;
+
+                    & span {
+                        font-weight: 700;
+                        font-size: 40px;
+                    }
+                }
+
+                &_section-name {
+                    margin-left: 24px;
+                    font-size: 26px;
+                    font-weight: 400;
+                    line-height: 28.29px;
+                    letter-spacing: 2.5999999046325684px;
+                }
+            }
+
+            &__icon {
+                display: none;
+
+                &.close {
+                    display: none;
+                }
+
+            }
+        }
+
+
+       
+        &__toogle {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            gap: 40px;
+            min-width: max-content;
+            height: 19px;
+
+            background: #FFFFFF;
+            box-shadow: 0px 0px 0px 0px;
+            position: static;
+            top: auto;
+            padding-left: 28px;
+        }
+
+    }
+}

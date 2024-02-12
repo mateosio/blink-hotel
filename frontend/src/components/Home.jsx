@@ -1,4 +1,6 @@
-import Header from "./Header";
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
+import Arrival from "./Arrival.jsx";
 import { Link } from "react-router-dom";
 import "./home.scss";
 
@@ -13,15 +15,15 @@ export default function Home() {
         </div>
         <div className="taketour__container">
           <Link to="" className="taketour__button">
-            <span>
-            TAKE A TOUR
-            </span>                       
+            <span>TAKE A TOUR</span>
           </Link>
           <Link to="" className="learn__button">
-          <span>LEARN MORE</span>
-              </Link>
+            <span>LEARN MORE</span>
+          </Link>
         </div>
       </section>
+      <Arrival />
+      <Footer />
     </>
   );
 }

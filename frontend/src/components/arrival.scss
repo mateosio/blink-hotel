@@ -1,0 +1,142 @@
+.schedule__section {
+    color: #FFFFFF;
+    min-width: 375px;
+    background-color: #222222;
+    // display: flex;
+    // flex-direction: column;
+    padding: 24px 0;
+
+    &-calendar {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        // align-items: self-start;
+        margin: auto;
+        justify-content: center;
+        height: auto;
+        max-width: 600px;
+    }
+
+    .input__container__arrival {
+        margin-bottom: 24px;
+
+        & label {
+            color: #FFFFFF;
+            font-size: 16px;
+            font-family: "Roboto";
+            font-weight: 700;
+            line-height: 18.75px;
+        }
+    }
+
+    .input-calendar {
+        position: relative;
+        display: flex;
+        padding-bottom: 7px;
+        flex-direction: row-reverse;
+        background-color: transparent;
+        color: #b3a5a5;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom-color: #BEAD8E;
+        width: 290px;
+        padding-left: 30px;
+        padding-top: 20px;
+        font-family: "Roboto";
+    }
+
+    .input-calendar[type=date]::-webkit-calendar-picker-indicator {
+        background-size: 16px 16px;
+        height: 20px;
+        width: 100%;
+        background-position-x: 1%;
+        color: #BEAD8E;
+        position: absolute;
+        cursor: pointer;
+        filter: invert(0.8);
+    }
+
+    .input__container__departure label {
+        color: #FFFFFF;
+        font-size: 16px;
+        font-family: "Roboto";
+        font-weight: 700;
+        line-height: 18.75px;
+    }
+
+    &-button {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 36px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 90%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    &-button:hover {
+        transform: scale(1.02);
+    }
+
+    &-button button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 60px;
+        background-color: #BEAD8E;
+        color: #FFFFFF;
+        border: none;
+        font-size: 14px;
+        font-family: Archivo;
+        font-weight: 700;
+        line-height: 15.23px;
+        letter-spacing: 2.8px;
+        text-decoration: none;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .schedule__section {
+        justify-content: space-between;
+        align-items: center;
+
+        form {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+        }
+
+        &-calendar {
+            flex-direction: row;
+            width: 776px;
+            padding-top: 0;
+            max-width: none;
+            margin: 0;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            justify-content: space-evenly;
+        }
+
+        &-button {
+            width: 300px;
+            margin: 0;
+            max-width: none;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-calendar {
+            padding-top: 5px;
+
+            &-container {
+                margin: 0;
+            }
+        }
+
+    }
+
+}
