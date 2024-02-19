@@ -1,8 +1,8 @@
 import "../components/footer.scss";
-import social from "../images/footer/socials.svg";
-import phone from "../images/footer/phone.svg";
-import letter from "../images/footer/letter.svg";
-import location from "../images/footer/location.svg";
+import social from "/images/footer/socials.svg";
+import phone from "/images/footer/phone.svg";
+import letter from "/images/footer/letter.svg";
+import location from "/images/footer/location.svg";
 
 export default function Footer() {
   return (

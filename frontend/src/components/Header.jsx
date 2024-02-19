@@ -1,13 +1,15 @@
 import { useState } from "react";
 import "./header.scss";
-import hamburguerIcon from "../images/header/img-hamb.svg";
-import crossIcon from "../images/header/img-cross.svg";
-import accountIcon from "../images/header/img-account.svg";
-import searchIcon from "../images/header/img-search.svg";
-import { Link } from "react-router-dom";
+import hamburguerIcon from "/images/header/img-hamb.svg";
+import crossIcon from "/images/header/img-cross.svg";
+import accountIcon from "/images/header/img-account.svg";
+import searchIcon from "/images/header/img-search.svg";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [active, setActive] = useState(true);
+
+  const navigate = useNavigate()
 
   const handleToggle = () => {
     setActive(!active);
@@ -29,7 +31,7 @@ export default function Header() {
                 </span>
               )}
             </div>
-            <div className="header__container_logo">
+            <div className="header__container_logo" onClick={()=> navigate("/")}>
               <div className="header__H">
                 <span>H</span>
               </div>
