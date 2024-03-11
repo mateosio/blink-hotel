@@ -8,7 +8,7 @@ const port = config.port || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use("/rooms", roomsRoutes)
+app.use("/rooms", roomsRoutes);
  
 
 app.listen(port, ()=>{
