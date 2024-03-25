@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import "./rooms.scss";
-import { getRooms } from "../getRooms";
+import { getRooms } from "../features/getRooms";
 
 
 export default function Rooms() {
@@ -10,11 +10,11 @@ export default function Rooms() {
     queryKey: ["rooms"],
     queryFn: getRooms,
   });
+  
   const navigate = useNavigate()
 
   const handlerBooking = (e, roomId) => {
     e.preventDefault();
-    console.log(e);
     navigate(`${roomId}`);
   }
 

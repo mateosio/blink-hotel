@@ -2,7 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route} f
 import Root from "./components/Root.jsx";
 import Home from "./components/Home.jsx";
 import Rooms from "./components/Rooms.jsx";
-import Detail from "./components/Detail.jsx";
+import RoomDetail from "./components/RoomDetail.jsx";
 
 
 
@@ -10,7 +10,7 @@ const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Root/>}>
     <Route path="/" element={<Home/>}/>
     <Route path="/rooms" element={<Rooms/>}/>
-    <Route path="/rooms/:detail" element={<Detail/>} />
+    <Route path="/rooms/:id" element={<RoomDetail/>} />
   </Route>
 ))
 

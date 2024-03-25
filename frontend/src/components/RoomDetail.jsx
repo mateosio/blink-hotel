@@ -1,7 +1,20 @@
-import { Link } from "react-router-dom";
-import "./detail.scss";
+import { Link, useParams } from "react-router-dom";
+import "./roomDetail.scss";
+import { useQuery } from "react-query";
+import {getRoomDetail} from "../features/getRoomDetail.jsx";
+import Calendar from "./Calendar.jsx";
 
-export default function Detail() {
+
+export default function RoomDetail() {
+  const {id} = useParams();
+  //pasar el id a getRoomDetail
+
+  const {isLoading, data: room, isError, error} = useQuery({
+    queryKey : ["roomDetail"],
+    queryFn : ()=> getRoomDetail(id),
+  });
+
+ 
   return (
     <>
       <section className="room__detail-about__section">
@@ -22,23 +35,22 @@ export default function Detail() {
         <div className="room__detail-availability-container">
           <div className="room__detail-title-price-container">
             <div className="room__detail-title">
-              <h1>"room_type"</h1>
-              <h2>Luxury room_type</h2>
+              <h1>{room?.type}</h1>
+              <h2>Luxury {room?.type}</h2>
             </div>
             <div className="room__detail-price">
-              <span className="discountedPrice"></span>
-              <span className="discountedText">/Night</span>
-
-              <span className="detail-price">$</span>
+              <span className="detail-price">${room?.price}</span>
               <span className="detail-night">/Night</span>
             </div>
           </div>
           <div className="room__detail-image">
-            <img src="/img/home/pic-slider1.jpg" alt="room image" />
+            <img src={`/images/rooms/${room?.img}.avif`} alt="room image" />
           </div>
-          <div className="room__detail-form-container">
-            <h1>Check Availability</h1>
-          </div>
+          {room && <Calendar reservations={room.roomReservations}/>}
+          {/* Sacar estilos del h1 en archivo scss */}
+          {/* <div className="room__detail-form-container">
+            <h1>Reservar</h1>
+          </div> */}
         </div>
       </section>
     </>
