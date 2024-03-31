@@ -1,35 +1,79 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
+import { Alert, Stack } from "@mui/material";
+import {makeReservation} from "../features/makeReservation"
 import "react-datepicker/dist/react-datepicker.css";
 import "./calendar.scss";
 
-export default function Calendar({ reservations }) {
+
+export default function Calendar({ id, reservations }) {
   const [actualDay, setActualDay] = useState(new Date());
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  console.log(reservations);
-  const [disabledRanges, setDisabledRanges] = useState(reservations);
-  const [highlightedDate, setHighlightedDate] = useState(null);
 
+  console.log(reservations);
+
+  const [disabledRanges, setDisabledRanges] = useState(reservations);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertRange, setShowAlertRange] = useState(false);
+
+  //Recibo como argumento el rango de fechas seleccionado en el calendario. Si en dicho rango no existen fechas deshabilitadas actualizo los state con la fecha de inicio y final del rango, en caso contrario no permito esta acción.
   const handleStartDateChange = (date) => {
     const [start, end] = date;
+
     setStartDate(start);
     setEndDate(end);
+
+    const startDateCalendar = format(start, "yyyy-MM-dd");
+    const endDateCalendar = format(end, "yyyy-MM-dd");
+
+    const isWithinRange = disabledRanges.some((disable) => {
+      const disableStartDate = format(disable.startDate, "yyyy-MM-dd");
+      const disableEndDate = format(disable.endDate, "yyyy-MM-dd");
+
+      return startDateCalendar < disableStartDate && endDateCalendar > disableEndDate;
+    });
+
+    if (isWithinRange) {
+      setEndDate(startDate);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+    }
   };
 
- 
-  // Compruebo si la fecha del calendario que recibo como argumento está dentro de uno de los rangos de fechas deshabilitadas.
+  // Recibo como argumento cada una de las fechas que se renderiza en el calendario y lo comparo con las fechas de reserva existentes que traigo del backend (disabledRanges). En el caso que se encuentra dentro del rango el metodo some devuelve true y cambio la respuesta a false con "!" para que el calendario sepa que debe deshabilitar la fecha analizada.
   const isDateDisabled = (date) => {
-    const dateFormat = format(date, "yyyy-MM-dd");
-    
-    return !disabledRanges.some((range) => {
-      const startDateFormat = format(range.startDate, "yyyy-MM-dd");
-      const endDateFormat = format(range.endDate, "yyyy-MM-dd");
+    const dateCalendar = format(date, "yyyy-MM-dd");
 
-     return dateFormat >= startDateFormat && dateFormat <= endDateFormat;
-      
+    return !disabledRanges.some((range) => {
+      const startDateDisabled = format(range.startDate, "yyyy-MM-dd");
+      const endDateDisabled = format(range.endDate, "yyyy-MM-dd");
+
+      return dateCalendar >= startDateDisabled && dateCalendar <= endDateDisabled;
     });
+  };
+
+  //
+  const handleReserve = ()=>{
+     if(startDate === null){
+      setShowAlertRange(true);
+      setTimeout(()=>{
+        setShowAlertRange(false);
+      }, 2000);
+    } else{
+      const startDateCalendar = format(startDate, "yyyy-MM-dd");
+      const endDateCalendar = format(endDate, "yyyy-MM-dd");
+      const changes = {
+        startDate: startDateCalendar,
+        endDate: endDateCalendar
+      }
+      console.log(changes);
+  
+      makeReservation(id, changes);
+    }
   };
 
   return (
@@ -51,12 +95,36 @@ export default function Calendar({ reservations }) {
             )
           }
           selectsRange
-          
         />
       </div>
-      <div className="room__detail-form-container">
-        <h1>Reservar</h1>
+      <div className="room__container-button">
+        <h1 className="room__button" onClick={handleReserve}>
+          Reservar
+        </h1>
       </div>
+      
+      {showAlert && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="info"
+            variant="filled"
+          >
+            The selected range has disabled dates
+          </Alert>
+        </Stack>
+      )}
+      {showAlertRange && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="info"
+            variant="filled"
+          >
+            You must select a date range to reserve
+          </Alert>
+        </Stack>
+      )}
     </>
   );
 }

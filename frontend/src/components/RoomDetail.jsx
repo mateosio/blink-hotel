@@ -46,7 +46,7 @@ export default function RoomDetail() {
           <div className="room__detail-image">
             <img src={`/images/rooms/${room?.img}.avif`} alt="room image" />
           </div>
-          {room && <Calendar reservations={room.roomReservations}/>}
+          {room && <Calendar reservations={room.roomReservations} id={id}/>}
           {/* Sacar estilos del h1 en archivo scss */}
           {/* <div className="room__detail-form-container">
             <h1>Reservar</h1>
