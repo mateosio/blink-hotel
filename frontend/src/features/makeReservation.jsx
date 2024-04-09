@@ -1,4 +1,4 @@
-export async function makeReservation(id, changes) {
+export async function makeReservation({id, changes}) {
   try {
     const response = await fetch(
       `http://localhost:3000/rooms/${id}/reservation`,
@@ -14,5 +14,7 @@ export async function makeReservation(id, changes) {
     const data = await response.json();
     return data;
     
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }

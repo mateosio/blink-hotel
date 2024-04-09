@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { Alert, Stack } from "@mui/material";
-import {makeReservation} from "../features/makeReservation"
+import {makeReservation} from "../features/makeReservation";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import "./calendar.scss";
 
@@ -12,12 +13,26 @@ export default function Calendar({ id, reservations }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  console.log(reservations);
-
   const [disabledRanges, setDisabledRanges] = useState(reservations);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertRange, setShowAlertRange] = useState(false);
+  const [showAlertBooking, setShowAlertBooking] = useState(false);
 
+  const queryClient = useQueryClient();
+  console.log(reservations);
+  console.log(disabledRanges);
+  
+  const addBookingMutation = useMutation({
+    mutationFn:  makeReservation,
+    onSuccess: async ()=>{
+      await queryClient.invalidateQueries("roomDetail");
+  }
+  });
+
+  if (reservations != disabledRanges) {
+    setDisabledRanges(reservations);
+  };
+ 
   //Recibo como argumento el rango de fechas seleccionado en el calendario. Si en dicho rango no existen fechas deshabilitadas actualizo los state con la fecha de inicio y final del rango, en caso contrario no permito esta acción.
   const handleStartDateChange = (date) => {
     const [start, end] = date;
@@ -46,13 +61,14 @@ export default function Calendar({ id, reservations }) {
 
   // Recibo como argumento cada una de las fechas que se renderiza en el calendario y lo comparo con las fechas de reserva existentes que traigo del backend (disabledRanges). En el caso que se encuentra dentro del rango el metodo some devuelve true y cambio la respuesta a false con "!" para que el calendario sepa que debe deshabilitar la fecha analizada.
   const isDateDisabled = (date) => {
-    const dateCalendar = format(date, "yyyy-MM-dd");
+    const dateCalendar = format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     return !disabledRanges.some((range) => {
-      const startDateDisabled = format(range.startDate, "yyyy-MM-dd");
-      const endDateDisabled = format(range.endDate, "yyyy-MM-dd");
-
-      return dateCalendar >= startDateDisabled && dateCalendar <= endDateDisabled;
+      const startDateDisabled = format(range.startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+      const endDateDisabled = format(range.endDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+      console.log(range.startDate);
+      console.log(endDateDisabled);
+      return (dateCalendar >= startDateDisabled) && (dateCalendar <= endDateDisabled);
     });
   };
 
@@ -69,10 +85,18 @@ export default function Calendar({ id, reservations }) {
       const changes = {
         startDate: startDateCalendar,
         endDate: endDateCalendar
-      }
-      console.log(changes);
-  
-      makeReservation(id, changes);
+      };
+            
+      addBookingMutation.mutate({id, changes});
+      
+      setShowAlertBooking(true);
+      setTimeout(()=>{
+        setShowAlertBooking(false);
+      }, 2000);
+
+      //Hago que en el calendario deje de estar seleccionado el rango.
+      setStartDate(null);
+      setEndDate(null);
     }
   };
 
@@ -122,6 +146,17 @@ export default function Calendar({ id, reservations }) {
             variant="filled"
           >
             You must select a date range to reserve
+          </Alert>
+        </Stack>
+      )}
+      {showAlertBooking && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="success"
+            variant="filled"
+          >
+            The reservation was made successfully
           </Alert>
         </Stack>
       )}

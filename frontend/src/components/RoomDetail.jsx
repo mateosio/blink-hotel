@@ -1,20 +1,20 @@
 import { Link, useParams } from "react-router-dom";
 import "./roomDetail.scss";
-import { useQuery } from "react-query";
-import {getRoomDetail} from "../features/getRoomDetail.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getRoomDetail } from "../features/getRoomDetail.jsx";
 import Calendar from "./Calendar.jsx";
 
 
 export default function RoomDetail() {
-  const {id} = useParams();
+  const { id } = useParams();
   //pasar el id a getRoomDetail
 
   const {isLoading, data: room, isError, error} = useQuery({
-    queryKey : ["roomDetail"],
-    queryFn : ()=> getRoomDetail(id),
+    queryKey: ["roomDetail"],
+    queryFn: () => getRoomDetail(id),
   });
 
- 
+
   return (
     <>
       <section className="room__detail-about__section">
@@ -31,6 +31,11 @@ export default function RoomDetail() {
           </div>
         </div>
       </section>
+      {isLoading ? (
+        <p>Loading</p>
+      ) : isError ? (
+        <p>Error al realizar la solicitud: {error.message}</p>
+      ) : room &&
       <section className="room__detail-availability">
         <div className="room__detail-availability-container">
           <div className="room__detail-title-price-container">
@@ -46,13 +51,14 @@ export default function RoomDetail() {
           <div className="room__detail-image">
             <img src={`/images/rooms/${room?.img}.avif`} alt="room image" />
           </div>
-          {room && <Calendar reservations={room.roomReservations} id={id}/>}
+          {room && <Calendar reservations={room.roomReservations} id={id} />}
           {/* Sacar estilos del h1 en archivo scss */}
           {/* <div className="room__detail-form-container">
             <h1>Reservar</h1>
           </div> */}
         </div>
       </section>
+      }
     </>
   );
 }

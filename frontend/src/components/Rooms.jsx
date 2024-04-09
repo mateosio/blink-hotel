@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import "./rooms.scss";
 import { getRooms } from "../features/getRooms";
@@ -11,12 +11,12 @@ export default function Rooms() {
     queryFn: getRooms,
   });
   
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handlerBooking = (e, roomId) => {
     e.preventDefault();
     navigate(`${roomId}`);
-  }
+  };
 
   return (
     <>
