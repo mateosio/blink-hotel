@@ -4,6 +4,7 @@ import phone from "/images/footer/phone.svg";
 import letter from "/images/footer/letter.svg";
 import location from "/images/footer/location.svg";
 
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -18,7 +19,7 @@ export default function Footer() {
               <span className="footer__HB-blink">BLINK</span>
             </div>
           </div>
-
+          
           <div className="footer__text">
             Lorem ipsum dolor sit amet, consect etur adipisicing elit, sed doing
             eius mod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -78,6 +79,7 @@ export default function Footer() {
           Terms of use | Privacy Environmental Policy
         </p>
       </div>
+      
     </footer>
   );
 }

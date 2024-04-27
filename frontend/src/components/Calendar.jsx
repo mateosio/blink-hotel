@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth.jsx";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { Alert, Stack } from "@mui/material";
@@ -6,6 +8,7 @@ import {makeReservation} from "../features/makeReservation";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import "react-datepicker/dist/react-datepicker.css";
 import "./calendar.scss";
+
 
 
 export default function Calendar({ id, reservations }) {
@@ -17,6 +20,10 @@ export default function Calendar({ id, reservations }) {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertRange, setShowAlertRange] = useState(false);
   const [showAlertBooking, setShowAlertBooking] = useState(false);
+
+  const {auth} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const queryClient = useQueryClient();
   console.log(reservations);
@@ -79,14 +86,18 @@ export default function Calendar({ id, reservations }) {
       setTimeout(()=>{
         setShowAlertRange(false);
       }, 2000);
-    } else{
+    } else if(!auth.user){
+      navigate("/login", state={pathname: location.pathname})
+
+    }
+      else{
       const startDateCalendar = format(startDate, "yyyy-MM-dd");
       const endDateCalendar = format(endDate, "yyyy-MM-dd");
       const changes = {
         startDate: startDateCalendar,
         endDate: endDateCalendar
       };
-            
+      
       addBookingMutation.mutate({id, changes});
       
       setShowAlertBooking(true);

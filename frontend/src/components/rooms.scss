@@ -162,37 +162,6 @@ $color-grey-light-letter: #C2C2C2;
         }
     }
 }
-.rooms-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
-
-.rooms-pagination button {
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-}
-  
-.rooms-pagination .rooms-pages {
-    display: flex;
-}
-  
-.rooms-pagination .rooms-pages button {
-    border: none;
-    background: transparent;
-    padding: 5px 8px;
-    cursor: pointer;
-}
-  
-.rooms-pagination .rooms-pages button.active {
-    background-color: $color-botton;
-    color: $background-white;
-}
 
 
 .rooms__section-amenities{

@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const rooms = await getRooms();
     res.status(200).json(rooms);
   } catch (error) {
-
+    res.send(error)
   }
 });
 
