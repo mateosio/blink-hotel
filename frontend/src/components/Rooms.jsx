@@ -33,7 +33,7 @@ export default function Rooms() {
           </div>
         </div>
       </section>
-      {data ? (
+      {isLoading ? (
         <RoomsSkeletonLoading />
       ) : isError ? (
         <p>Error al realizar la solicitud: {error.message}</p>

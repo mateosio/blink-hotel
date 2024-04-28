@@ -7,7 +7,7 @@ export async function makeReservation({id, changes}) {
         headers: {
           "Content-type": "application/json",
         },
-        // Authorization: ,
+        credentials: "include",
         body: JSON.stringify(changes),
       }
     );
