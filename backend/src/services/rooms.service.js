@@ -5,14 +5,14 @@ const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("hotel-blink")
 const roomsCollection = db.collection("rooms");
 
-export async function getRooms(){
+export const getRooms = async ()=>{
         await client.connect();
         const rooms = await roomsCollection.find().toArray();
         console.log(rooms);
         return rooms;
 };    
 
-export async function getRoomDetail(id){
+export const getRoomDetail = async (id)=> {
         await client.connect();
 
         //convierto el id en un string particular que entiende la base de datos.
@@ -22,7 +22,7 @@ export async function getRoomDetail(id){
         return roomDetail;
 };
 
-export async function updateReservation(id, changes){
+export const updateReservation = async (id, changes)=> {
     await client.connect();
 
     const roomId = ObjectId.createFromHexString(id);
@@ -47,8 +47,7 @@ export async function updateReservation(id, changes){
           console.log('No se realizó ninguna actualización');
         }
         
-        // Cierra la conexión al finalizar
-         client.close();
+        client.close();
       });
 
       return updateOne;

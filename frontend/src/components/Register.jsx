@@ -11,12 +11,12 @@ const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState("");
+  const [username, setUser] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
   const [focus, setFocus] = useState(true);
 
-  const [pwd, setPwd] = useState("");
+  const [password, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
@@ -41,7 +41,7 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user, pwd }),
+        body: JSON.stringify({ username, password }),
       });
 
       setSuccess(true);
@@ -49,8 +49,8 @@ const Register = () => {
       setUser("");
       setPwd("");
       setMatchPwd("");
-    } catch (err) {
-      if (!err?.response) {
+    } catch (error) {
+      if (!error?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 409) {
         setErrMsg("Username Taken");
@@ -88,7 +88,7 @@ const Register = () => {
                   Username:
                   <FaCheck className={validName ? "valid" : "hide"} />
                   <FaTimes
-                    className={validName || !user ? "hide" : "invalid"}
+                    className={validName || !username ? "hide" : "invalid"}
                   />
                 </label>
                 <input
@@ -99,9 +99,9 @@ const Register = () => {
                   onChange={(e) => (
                     setUser(e.target.value),
                     setErrMsg(""),
-                    setValidName(USER_REGEX.test(user))
+                    setValidName(USER_REGEX.test(username))
                   )}
-                  value={user}
+                  value={username}
                   required
                   aria-invalid={validName ? "false" : "true"}
                   aria-describedby="uidnote"
@@ -112,7 +112,7 @@ const Register = () => {
                 <p
                   id="uidnote"
                   className={
-                    userFocus && user && !validName
+                    userFocus && username && !validName
                       ? "instructions"
                       : "offscreen"
                   }
@@ -130,7 +130,7 @@ const Register = () => {
                 <label htmlFor="password">
                   Password:
                   <FaCheck className={validPwd ? "valid" : "hide"} />
-                  <FaTimes className={validPwd || !pwd ? "hide" : "invalid"} />
+                  <FaTimes className={validPwd || !password ? "hide" : "invalid"} />
                 </label>
                 <input
                   type="password"
@@ -138,10 +138,10 @@ const Register = () => {
                   onChange={(e) => (
                     setPwd(e.target.value),
                     setErrMsg(""),
-                    setValidPwd(PWD_REGEX.test(pwd)),
+                    setValidPwd(PWD_REGEX.test(password)),
                     setValidMatch(pwd === matchPwd)
                   )}
-                  value={pwd}
+                  value={password}
                   required
                   aria-invalid={validPwd ? "false" : "true"}
                   aria-describedby="pwdnote"
@@ -184,7 +184,7 @@ const Register = () => {
                   id="confirm_pwd"
                   onChange={(e) => (
                     setMatchPwd(e.target.value),
-                    setValidMatch(pwd === matchPwd),
+                    setValidMatch(password === matchPwd),
                     setErrMsg("")
                   )}
                   value={matchPwd}
