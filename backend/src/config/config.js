@@ -7,5 +7,6 @@ dotenv.config();
 export const config = {
     port: process.env.PORT,
     mongoDB_Uri: process.env.MONGODB_URI,
-    jwtSecret: process.env.JWT_SECRET
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
 }

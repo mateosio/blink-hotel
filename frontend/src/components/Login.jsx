@@ -39,9 +39,10 @@ const Login = () => {
       })
       
       
+       const username = response?.username;
        const accessToken = response?.accessToken;
       
-       setAuth({ user, pwd, accessToken });
+       setAuth({ username, accessToken });
        setUser('');
        setPwd('');
        navigate(from, { replace: true });

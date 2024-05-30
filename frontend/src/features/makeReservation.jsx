@@ -1,20 +1,15 @@
+import useAxios from "../utils/axios.js"
+
 export async function makeReservation({id, changes}) {
+  const axiosInstanse = useAxios();
+
   try {
-    const response = await fetch(
-      `http://localhost:3000/rooms/${id}/reservation`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(changes),
-      }
-    );
-    const data = await response.json();
-    return data;
+    const response = await axiosInstanse.patch(
+      `http://localhost:3000/rooms/${id}/reservation`, changes);
+
+    return response.data;
     
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }

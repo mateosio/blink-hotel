@@ -8,8 +8,13 @@ import loginRoute from "./routes/login.route.js";
 const app = express();
 const port = config.port || 3000;
 
+const corsOptions = {
+    origin: true, 
+    credentials: true 
+  };
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/rooms", roomsRoute);
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);

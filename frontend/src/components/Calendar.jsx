@@ -19,8 +19,9 @@ export default function Calendar({ id, reservations }) {
   const [showAlertRange, setShowAlertRange] = useState(false);
   const [showAlertBooking, setShowAlertBooking] = useState(false);
   const [showAlertErrorBooking, setShowAlertErrorBooking] = useState(false);
+  const [showAlertLogin, setShowAlertLogin] = useState(false);
 
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,11 +38,19 @@ export default function Calendar({ id, reservations }) {
         setShowAlertBooking(false);
       }, 2000);
     },
-    onError: async () => {
+    onError: async (error) => {
+      if(error.response && (error.response.status === 401 || error.response.status === 403)){
+        setAuth({})
+        setShowAlertLogin(true);
+        setTimeout(() => {
+          setShowAlertLogin(false);
+        }, 2000);
+      } else{
       setShowAlertErrorBooking(true);
       setTimeout(() => {
         setShowAlertErrorBooking(false);
       }, 2000);
+      }
     },
   });
 
@@ -82,10 +91,7 @@ export default function Calendar({ id, reservations }) {
     const dateCalendar = format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     return !disabledRanges.some((range) => {
-      const startDateDisabled = format(
-        range.startDate,
-        "yyyy-MM-dd'T'HH:mm:ss'Z'"
-      );
+      const startDateDisabled = format(range.startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
       const endDateDisabled = format(range.endDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
       console.log(range.startDate);
       console.log(endDateDisabled);
@@ -102,7 +108,7 @@ export default function Calendar({ id, reservations }) {
       setTimeout(() => {
         setShowAlertRange(false);
       }, 2000);
-    } else if (!auth.user) {
+    } else if (!auth.username) {
       navigate("/login", state = { pathname: location.pathname });
     } else {
       const startDateCalendar = format(startDate, "yyyy-MM-dd");
@@ -188,6 +194,17 @@ export default function Calendar({ id, reservations }) {
             variant="filled"
           >
             The reservation has failed, try later please!
+          </Alert>
+        </Stack>
+      )}
+      {showAlertLogin && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="success"
+            variant="filled"
+          >
+            Maybe, you need login!
           </Alert>
         </Stack>
       )}

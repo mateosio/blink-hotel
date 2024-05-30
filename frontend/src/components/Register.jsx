@@ -27,6 +27,8 @@ const Register = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const [newUsername, setNewUsername] = useState("");
+
   if (userRef.current && focus) {
     userRef.current.focus();
     setFocus(null);
@@ -45,6 +47,7 @@ const Register = () => {
       });
 
       setSuccess(true);
+      setNewUsername(response.data)
       //clear state and controlled inputs
       setUser("");
       setPwd("");
@@ -65,7 +68,7 @@ const Register = () => {
     <>
       {success ? (
         <section>
-          <h1>Success!</h1>
+          <h1> `${newUsername} the process was successfully!`</h1>
           <p>
             <Link>Sign In</Link>
           </p>
