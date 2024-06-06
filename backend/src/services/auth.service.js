@@ -1,18 +1,14 @@
-import { MongoClient } from "mongodb";
+import User from "../model/User.js"
 import { config } from "../config/config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findOne } from "./register.service.js";
 
-const client = new MongoClient(process.env.MONGODB_URI);
-const db = client.db("hotel-blink");
-const usersCollections = db.collection("users");
 
-export const login = async (username, password) => {
+export const login = async (username, password, cookies) => {
   try {
-    await client.connect();
-    
-    const user = await findOne("username", username);
+    if(cookies?.refreshToken) throw new Error("Usuario logueado");
+
+    const user = await User.findOne({username});
        
     if (!user) {
       throw new Error("Usuario no registrado");
@@ -33,15 +29,16 @@ export const login = async (username, password) => {
         });
 
         const id = user._id;
+        
         //Guardo el refreshToken en la base de datos
         const filter = { _id: id };
         const updateDocument = {
-          $set: {
+          $push: {
             refreshToken: refreshToken,
           },
         };
 
-        const updateRefreshToken = await usersCollections.updateOne(
+        const updateRefreshToken = await User.updateOne(
           filter,
           updateDocument
         );

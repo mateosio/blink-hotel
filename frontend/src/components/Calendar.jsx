@@ -20,6 +20,7 @@ export default function Calendar({ id, reservations }) {
   const [showAlertBooking, setShowAlertBooking] = useState(false);
   const [showAlertErrorBooking, setShowAlertErrorBooking] = useState(false);
   const [showAlertLogin, setShowAlertLogin] = useState(false);
+  const [showAlertUserLogin, setShowAlertUserLogin] = useState(false);
 
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
@@ -45,7 +46,13 @@ export default function Calendar({ id, reservations }) {
         setTimeout(() => {
           setShowAlertLogin(false);
         }, 2000);
-      } else{
+      } else if(error.response.status === 409){
+        setShowAlertUserLogin(true);
+        setTimeout(()=>{
+          setShowAlertUserLogin(false);
+        }, 2000)
+      }
+        else{
       setShowAlertErrorBooking(true);
       setTimeout(() => {
         setShowAlertErrorBooking(false);
@@ -205,6 +212,17 @@ export default function Calendar({ id, reservations }) {
             variant="filled"
           >
             Maybe, you need login!
+          </Alert>
+        </Stack>
+      )}
+      {showAlertUserLogin && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="success"
+            variant="filled"
+          >
+            You are already logged in!
           </Alert>
         </Stack>
       )}

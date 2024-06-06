@@ -6,7 +6,8 @@ const router = express.Router();
 router.post("/", async (req, res)=>{
     try {
         const {username, password} = req.body;
-        const authorized = await login(username, password);
+        const cookies = req.cookies;
+        const authorized = await login(username, password, cookies);
         const user = authorized.username;
         const accessToken = authorized.accessToken;
         const refreshToken = authorized.refreshToken;
@@ -18,6 +19,9 @@ router.post("/", async (req, res)=>{
         let statusCode;
 
         switch(error.message){
+            case "Usuario logueado":
+                statusCode = 409            
+
             case "Usuario no registrado":
                 statusCode = 401;
                 break;

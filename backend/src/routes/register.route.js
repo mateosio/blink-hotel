@@ -11,7 +11,7 @@ router.post("/", async (req, res)=>{
         res.status(201).json(newUser);
     } catch (error) {
         res.status(409).json(error.message);
-    }
+    };
 })
 
 export default router;
