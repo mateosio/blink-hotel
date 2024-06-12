@@ -125,10 +125,11 @@ $color-grey-light-letter: #C2C2C2;
 .room__detail-price{
     display: flex;
     height: 48px;
-    margin-top: 8px;
+    
 }
 
 .detail-price{
+    justify-content: end;
     font-family: $archivo-font;
     font-size: 32px;
     font-weight: $weight-700;
@@ -151,27 +152,10 @@ $color-grey-light-letter: #C2C2C2;
     img{
         width: 100%;
         border-radius: 3px;
+        margin-bottom: 13px;
     }
 }
-.room__detail-form-container{
-    margin-top: 35px;
-    h1{
-        text-align: center;
-        font-family: $archivo-font;
-        font-size: 18px;
-        font-weight: $weight-700;
-        line-height: 19.58px;
-        letter-spacing: -0.54px;
-        color: $background-black;
-    }
-    form{
-        display: flex;
-        flex-direction: column;
-        margin-top: 25px;
-        background-color: $background-white;
-        
-    }
-}
+
 .room-detail-checkininput[type="date"]::-webkit-calendar-picker-indicator{
     width: 100%;
     background-position-x: 90%;
@@ -182,21 +166,7 @@ $color-grey-light-letter: #C2C2C2;
     background-position-x: 90%;
     position: absolute;
 }
-.room__detail-form-container form .room__detail-form-button{
-    width: 70%;
-    height: 60px;
-    background-color: $color-botton;
-    color: $background-white;
-    border: none;
-    font-size: 14px;
-    font-family: $archivo-font;
-    font-weight: $weight-700;
-    line-height: 15.23px;
-    letter-spacing: 2.8px;
-    margin: auto;
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
+
 
 @media only screen and (min-width: 1000px){
     .room__detail-about__section-general{
@@ -214,38 +184,51 @@ $color-grey-light-letter: #C2C2C2;
 
     .room__detail-availability{
         max-width: 1440px;
+        height: 700px;
         margin: auto;
     }
     .room__detail-availability-container{
         position: relative;
+        margin-left: 100px;
         padding-top: 60px;
         max-width: none;
-        display: block;
+        display: flex;
+        flex-direction: row;
 
     }
+
+    .room_detail-container{
+        max-width: 48%;
+    }
     .room__detail-title-price-container{
-        
-        background-color: white;
-        width: 260px;
+        max-width: 50%;
         height: 130px;
         border-radius: 0 0 3px 0;
     }
     .room__detail-price{
-        padding-left: 25px;
+        padding-right: 18px;
         margin-top: 0;
+        justify-content: end;
     }
     .room__detail-title{
+        padding-left: 18px;
         h1{
             margin-top: 0;
         }
     }
     .room__detail-image{
-        max-width: 50%;
+        max-width: 100%;
         img{
             max-width: 100%; /* Limita la imagen al ancho del contenedor */
             height: auto;
         }
     }
+    .room__detail-calendar{
+        height: 450px;
+        width: 442px;
+        max-width: 48%;
+    }
+
     .room__detail-form-container{
        min-width: 264px;
     }

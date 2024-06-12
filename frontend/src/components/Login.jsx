@@ -1,16 +1,17 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
-import "./login.scss"
+import axios from "../utils/axios";
+import "./login.scss";
 
 
 const Login = () => {
   const { setAuth } = useAuth();
-
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from || "/";
 
   const userRef = useRef();
   const errRef = useRef();
@@ -30,29 +31,30 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/auth", {
-        method: "POST",
-        headers: {
+      const response = await axios.post("/login", 
+        {user, pwd}, 
+        {
+          headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({user, pwd})
       })
-      
-      
-       const username = response?.username;
-       const accessToken = response?.accessToken;
+            
+       const username = response.data?.username;
+       const accessToken = response.data?.accessToken;
+       console.log(username);
+       console.log(accessToken);
       
        setAuth({ username, accessToken });
        setUser('');
        setPwd('');
        navigate(from, { replace: true });
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
+    } catch (error) {
+      if (error.response?.status === 400) {
         setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
+      } else if (error.response?.status === 401) {
         setErrMsg("Unauthorized");
+      } else if(error.response?.status === 409){
+        setErrMsg("You are already login");
       } else {
         setErrMsg("Login Failed");
       }

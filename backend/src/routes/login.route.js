@@ -5,19 +5,22 @@ const router = express.Router();
 
 router.post("/", async (req, res)=>{
     try {
-        const {username, password} = req.body;
+        const {user, pwd} = req.body;
+        
         const cookies = req.cookies;
-        const authorized = await login(username, password, cookies);
-        const user = authorized.username;
+        const authorized = await login(user, pwd, cookies);
+        
+        const username = authorized.username;
         const accessToken = authorized.accessToken;
         const refreshToken = authorized.refreshToken;
-
+        // console.log(user);
+        // console.log(accessToken);
         res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.status(201).json({user, accessToken});
+        res.status(200).json({username, accessToken});
     }
     catch (error) {
         let statusCode;
-
+        
         switch(error.message){
             case "Usuario logueado":
                 statusCode = 409            
@@ -33,7 +36,8 @@ router.post("/", async (req, res)=>{
             default:
             statusCode = 500;
         }
-        res.status(statusCode).json({error: error.message})
+        
+        res.status(statusCode).json({"error": error.message})
     }
 })
 

@@ -38,15 +38,12 @@ export const login = async (username, password, cookies) => {
           },
         };
 
-        const updateRefreshToken = await User.updateOne(
-          filter,
-          updateDocument
-        );
+        const updateRefreshToken = await User.updateOne(filter, updateDocument);
 
         return { username, accessToken, refreshToken };
       }
     }
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };

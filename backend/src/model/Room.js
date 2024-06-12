@@ -1,19 +1,19 @@
-import moongose from "mongoose";
+import mongoose from "mongoose";
 
-const Schema = moongose.Schema;
+const Schema = mongoose.Schema;
 
 const roomReservationSchema = new Schema({
     startDate: {
         type: String,
-        required: true
+        
     },
     endDate: {
         type: String,
-        required: true
+        
     }
 }, { _id: false });
 
-const RoomSchema = new Schema({
+const roomSchema = new Schema({
     number: {
         type: Number,
     },
@@ -28,8 +28,8 @@ const RoomSchema = new Schema({
     },
     roomReservations: {
         type: [roomReservationSchema],
-        default: []
     },
 });
 
-export default Room = moongose.model("Room", RoomSchema);
+const Room = mongoose.model("Room", roomSchema);
+export default Room;

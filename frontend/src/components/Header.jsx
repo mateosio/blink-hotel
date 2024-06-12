@@ -5,14 +5,35 @@ import crossIcon from "/images/header/img-cross.svg";
 import accountIcon from "/images/header/img-account.svg";
 import searchIcon from "/images/header/img-search.svg";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth.jsx";
+import axios from "../utils/axios";
+import { Alert, Stack } from "@mui/material";
 
 export default function Header() {
   const [active, setActive] = useState(true);
+  const [showAlertLogout, setShowAlertLogout] = useState(false);
+  const {auth, setAuth} = useAuth();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setActive(!active);
+  };
+
+  const handleLogout = async ()=>{
+    try {
+      const response = await axios.get("/logout");
+      console.log("Se ejecutó handleLogout");
+      console.log(response.data);
+      setAuth(null);
+      setShowAlertLogout(true);
+      setTimeout(()=>{
+        setShowAlertLogout(false)
+      }, 2000);
+      
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -54,6 +75,11 @@ export default function Header() {
             <Link to="./contact" className="header__toogle-links">
               Contact
             </Link>
+            {auth?.username &&
+            <Link className="header__toogle-links" onClick={handleLogout}>
+              Logout
+            </Link>
+            }
           </div>
           <div className="header__menuRight">
             <a href="../login">
@@ -70,6 +96,18 @@ export default function Header() {
         </div>
       
       </header>
+      {showAlertLogout && (
+        <Stack className="alert_container">
+          <Alert
+            sx={{ maxWidth: "100%", minWidth: "100%" }}
+            severity="success"
+            variant="filled"
+          >
+            You are logout!
+          </Alert>
+        </Stack>
+      )}
     </>
+    
   );
 }

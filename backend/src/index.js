@@ -31,6 +31,10 @@ app.use("/refresh", refreshTokenRoute);
 app.use("/logout", logoutRoute);
  
 mongoose.connection.once('open', () => {
+  console.log("Connected to MongoDB");
   app.listen(port, ()=>{
     console.log("El servidor funciona en puerto 3000")})
 });
+
+////MONGODB_URId=mongodb+srv://siomateo8:ct73eAW@cluster0.v3ghvqa.mongodb.net/?retryWrites=true&w=majority
+//mongodb+srv://siomateo8:ct73eAW@cluster0.v3ghvqa.mongodb.net/hotel-blink?retryWrites=true&w=majority

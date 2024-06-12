@@ -26,6 +26,7 @@ router.patch("/:id/reservation", async (req, res) => {
   try {
     const { id } = req.params;
     const change = req.body;
+    
     const update = await updateReservation(id, change, req);
     res.status(200).end();
   } catch (error) {

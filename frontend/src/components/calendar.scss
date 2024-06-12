@@ -16,3 +16,15 @@
 .room__button{
     cursor: pointer;
 }
+
+@media only screen and (min-width: 1000px){
+    .calendar{
+        margin-top: 40%;
+        height: 60%;
+        margin-left: 17%;
+
+    }
+    .room__button{
+        margin-left: 145px;
+    }
+}
