@@ -84,7 +84,7 @@ export default function Calendar({ id, reservations }) {
           const disableStartDate = format(new Date(disable.startDate), "yyyy-MM-dd");
           const disableEndDate = format(new Date(disable.endDate), "yyyy-MM-dd");
 
-          return startDateCalendar < disableStartDate && endDateCalendar > disableEndDate;
+          return startDateCalendar < disableStartDate && endDateCalendar >= disableEndDate;
         });
 
         if (isWithinRange) {
@@ -135,7 +135,7 @@ export default function Calendar({ id, reservations }) {
         };
         
       console.log("entre al else de reservas para lanzar la mutación", changes);
-      console.log("entre al else de reservas para lanzar la mutación", id);
+      
       addBookingMutation.mutate({ id, changes, auth, axiosInstance });
 
       //Hago que en el calendario deje de estar seleccionado el rango.

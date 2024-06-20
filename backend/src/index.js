@@ -9,6 +9,7 @@ import registerRoute from "./routes/register.route.js";
 import loginRoute from "./routes/login.route.js";
 import refreshTokenRoute from "./routes/refreshToken.route.js";
 import logoutRoute from "./routes/logout.route.js";
+import availabilityRoute from "./routes/availability.route.js";
 
 const app = express();
 const port = config.port || 3000;
@@ -29,6 +30,7 @@ app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshTokenRoute);
 app.use("/logout", logoutRoute);
+app.use("/availability", availabilityRoute);
  
 mongoose.connection.once('open', () => {
   console.log("Connected to MongoDB");
@@ -36,5 +38,3 @@ mongoose.connection.once('open', () => {
     console.log("El servidor funciona en puerto 3000")})
 });
 
-////MONGODB_URId=mongodb+srv://siomateo8:ct73eAW@cluster0.v3ghvqa.mongodb.net/?retryWrites=true&w=majority
-//mongodb+srv://siomateo8:ct73eAW@cluster0.v3ghvqa.mongodb.net/hotel-blink?retryWrites=true&w=majority

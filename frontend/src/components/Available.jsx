@@ -1,21 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 import "./rooms.scss";
-import { getRooms } from "../features/getRooms";
+import { getAvailable } from "../features/getAvailable";
 import RoomsSkeletonLoading from "./roomsSkeletonLoading.jsx";
 
-export default function Rooms() {
+export default function Available() {
   
+  const location = useLocation();
+  const dates = location.state;
+  console.log(dates);
+
   const { isLoading, data, isError, error } = useQuery({
-    queryKey: ["rooms"],
-    queryFn: getRooms,
+    queryKey: ["available", dates],
+    queryFn: () => getAvailable(dates),
   });
 
   const navigate = useNavigate();
 
   const handlerBooking = (e, roomId) => {
     e.preventDefault();
-    navigate(`${roomId}`);
+    navigate(`/rooms/${roomId}`);
   };
 
   return (
@@ -25,7 +29,7 @@ export default function Rooms() {
         <div className="rooms__about__section-general">
           <div className="rooms__about__section-info">
             <h2>THE ULTIMATE LUXURY</h2>
-            <h1>Ultimate Room</h1>
+            <h1>Rooms availables</h1>
           </div>
           <div className="rooms__about__section-links">
             <Link to="/" className="rooms-link-home">

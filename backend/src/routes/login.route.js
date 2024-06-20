@@ -15,15 +15,16 @@ router.post("/", async (req, res)=>{
         const refreshToken = authorized.refreshToken;
         // console.log(user);
         // console.log(accessToken);
-        res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 }); 
         res.status(200).json({username, accessToken});
     }
     catch (error) {
         let statusCode;
-        
+      
         switch(error.message){
             case "Usuario logueado":
-                statusCode = 409            
+                statusCode = 409;
+                break;            
 
             case "Usuario no registrado":
                 statusCode = 401;

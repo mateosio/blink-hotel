@@ -49,6 +49,7 @@ const Login = () => {
        setPwd('');
        navigate(from, { replace: true });
     } catch (error) {
+      
       if (error.response?.status === 400) {
         setErrMsg("Missing Username or Password");
       } else if (error.response?.status === 401) {

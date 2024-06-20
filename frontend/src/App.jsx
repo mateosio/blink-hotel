@@ -10,6 +10,7 @@ import Rooms from "./components/Rooms.jsx";
 import RoomDetail from "./components/RoomDetail.jsx";
 import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
+import Available from "./components/Available.jsx";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
@@ -17,6 +18,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/" element={<Home />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/rooms/:id" element={<RoomDetail />} />
+        <Route path="/available" element={<Available />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

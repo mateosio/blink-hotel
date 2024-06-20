@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 export const login = async (username, password, cookies) => {
   try {
-    if(cookies?.refreshToken) throw new Error("Usuario logueado");
+    // if(cookies?.refreshToken) throw new Error("Usuario logueado");
 
     const user = await User.findOne({username});
        
