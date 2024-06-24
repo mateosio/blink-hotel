@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth.jsx";
-import {useAxios} from "../utils/axios.js"
+import axios, {useAxios} from "../utils/axios.js"
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { Alert, Stack } from "@mui/material";
@@ -116,32 +116,62 @@ export default function Calendar({ id, reservations }) {
     });
   };
 
-  //
-  const handleReserve = () => {
+  
+  const handleReserve = async () => {
     if (startDate === null || endDate === null) {
       setShowAlertRange(true);
       setTimeout(() => {
         setShowAlertRange(false);
       }, 2000);
-    } else if (!auth?.username) {
-      console.log("Se ejecuto else if");
-      navigate("/login", {state: { from: location.pathname }, replace: true});
-    } else {
-      const startDateCalendar = format(startDate, "yyyy-MM-dd");
-      const endDateCalendar = format(endDate, "yyyy-MM-dd");
-      const changes = {
-        startDate: startDateCalendar,
-        endDate: endDateCalendar,
-        };
-        
-      console.log("entre al else de reservas para lanzar la mutación", changes);
-      
-      addBookingMutation.mutate({ id, changes, auth, axiosInstance });
-
-      //Hago que en el calendario deje de estar seleccionado el rango.
-      setStartDate(null);
-      setEndDate(null);
+      return;
     }
+
+   
+        //chequear si tengo un access token
+        if(auth?.accessToken){
+          const accessToken = auth.accessToken;
+          console.log("Tengo accessToken");
+          const startDateCalendar = format(startDate, "yyyy-MM-dd");
+          const endDateCalendar = format(endDate, "yyyy-MM-dd");
+          const changes = {
+          startDate: startDateCalendar,
+          endDate: endDateCalendar,
+          };
+          
+        console.log("Tengo un accessToken y lanzo la reserva", changes);
+        addBookingMutation.mutate({ id, changes, accessToken, axiosInstance });
+    
+        //Hago que en el calendario deje de estar seleccionado el rango.
+        setStartDate(null);
+        setEndDate(null);
+        } else{
+          try {
+
+          console.log("No tengo access Token, lanzo el get de axios para chequear si estoy logueado");
+          const response = await axios.get("/login");
+          const username = response.data.username;
+          const accessToken = response.data.accessToken;
+          setAuth({ username, accessToken });
+        
+          const startDateCalendar = format(startDate, "yyyy-MM-dd");
+          const endDateCalendar = format(endDate, "yyyy-MM-dd");
+          const changes = {
+            startDate: startDateCalendar,
+            endDate: endDateCalendar,
+            };
+            
+          console.log("entre al else de reservas para lanzar la mutación", changes);
+          
+          addBookingMutation.mutate({ id, changes, accessToken, axiosInstance });
+      
+          setStartDate(null);
+          setEndDate(null);
+        } catch (error) {
+          console.log("ingrese al catch?");
+            navigate("/login", {state: { from: location.pathname }, replace: true});
+          }
+        }
+    
   };
 
   return (
@@ -208,7 +238,7 @@ export default function Calendar({ id, reservations }) {
         <Stack className="alert_container">
           <Alert
             sx={{ maxWidth: "100%", minWidth: "100%" }}
-            severity="success"
+            severity="info"
             variant="filled"
           >
             The reservation has failed, try later please!
@@ -219,7 +249,7 @@ export default function Calendar({ id, reservations }) {
         <Stack className="alert_container">
           <Alert
             sx={{ maxWidth: "100%", minWidth: "100%" }}
-            severity="success"
+            severity="info"
             variant="filled"
           >
             Maybe, you need login!
@@ -230,7 +260,7 @@ export default function Calendar({ id, reservations }) {
         <Stack className="alert_container">
           <Alert
             sx={{ maxWidth: "100%", minWidth: "100%" }}
-            severity="success"
+            severity="info"
             variant="filled"
           >
             You are already logged in!

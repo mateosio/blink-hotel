@@ -1,6 +1,6 @@
 
-export async function makeReservation({id, changes, auth, axiosInstance}) {
-  console.log("previo makereservations");
+export async function makeReservation({id, changes, accessToken, axiosInstance}) {
+  console.log("previo makereservations", accessToken);
  
   try {
     console.log("Se lanza makereservations");
@@ -9,7 +9,7 @@ export async function makeReservation({id, changes, auth, axiosInstance}) {
       changes,
     {
       headers: {
-        Authorization: `Bearer ${auth.accessToken}`
+        Authorization: `Bearer ${accessToken}`
       }
     }
   );
