@@ -45,6 +45,7 @@ const Login = () => {
        console.log(accessToken);
       
        setAuth({ username, accessToken });
+       localStorage.setItem("blink", JSON.stringify(username))
        setUser('');
        setPwd('');
        navigate(from, { replace: true });

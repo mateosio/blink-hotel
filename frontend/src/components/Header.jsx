@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./header.scss";
 import hamburguerIcon from "/images/header/img-hamb.svg";
 import crossIcon from "/images/header/img-cross.svg";
@@ -12,25 +12,36 @@ import { Alert, Stack } from "@mui/material";
 export default function Header() {
   const [active, setActive] = useState(true);
   const [showAlertLogout, setShowAlertLogout] = useState(false);
-  const {auth, setAuth} = useAuth();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const {setAuth} = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const item = JSON.parse(localStorage.getItem("blink"));
+    if(item){
+      setLoggedIn(true);
+    }
+  }, []);
+
 
   const handleToggle = () => {
     setActive(!active);
   };
 
-  const handleLogout = async ()=>{
+  const handleLogout = async () => {
     try {
       const response = await axios.get("/logout");
-      console.log("Se ejecutó handleLogout");
+      console.log("Se ejecutó el Logout");
+      localStorage.removeItem("blink")
       console.log(response.data);
       setAuth(null);
-      setShowAlertLogout(true);
-      setTimeout(()=>{
-        setShowAlertLogout(false)
-      }, 2000);
+      setLoggedIn(false);
       
+      setShowAlertLogout(true);
+      setTimeout(() => {
+        setShowAlertLogout(false);
+      }, 2000);
     } catch (error) {
       console.log(error.message);
     }
@@ -52,7 +63,10 @@ export default function Header() {
                 </span>
               )}
             </div>
-            <div className="header__container_logo" onClick={()=> navigate("/")}>
+            <div
+              className="header__container_logo"
+              onClick={() => navigate("/")}
+            >
               <div className="header__H">
                 <span>H</span>
               </div>
@@ -75,11 +89,11 @@ export default function Header() {
             <Link to="./contact" className="header__toogle-links">
               Contact
             </Link>
-            {auth?.username &&
-            <Link className="header__toogle-links" onClick={handleLogout}>
-              Logout
-            </Link>
-            }
+            {loggedIn && (
+              <Link className="header__toogle-links" onClick={handleLogout}>
+                Logout
+              </Link>
+            )}
           </div>
           <div className="header__menuRight">
             <a href="../login">
@@ -89,12 +103,7 @@ export default function Header() {
               <img src={searchIcon} alt="Search icon" />
             </a>
           </div>
-
-          
-          
-        
         </div>
-      
       </header>
       {showAlertLogout && (
         <Stack className="alert_container">
@@ -108,6 +117,5 @@ export default function Header() {
         </Stack>
       )}
     </>
-    
   );
 }

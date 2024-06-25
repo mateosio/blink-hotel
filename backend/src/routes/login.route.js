@@ -32,7 +32,6 @@ router.post("/", async (req, res)=>{
     try {
         const {user, pwd} = req.body;
         
-        const cookies = req.cookies;
         const authorized = await login(user, pwd);
         
         const username = authorized.username;
