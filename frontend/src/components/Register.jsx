@@ -11,7 +11,7 @@ const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [username, setUser] = useState("");
+  const [username, setUsername] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
   const [focus, setFocus] = useState(true);
@@ -49,7 +49,7 @@ const Register = () => {
       setSuccess(true);
       setNewUsername(response.data)
       //clear state and controlled inputs
-      setUser("");
+      setUsername("");
       setPwd("");
       setMatchPwd("");
     } catch (error) {
@@ -100,7 +100,7 @@ const Register = () => {
                   ref={userRef}
                   autoComplete="off"
                   onChange={(e) => (
-                    setUser(e.target.value),
+                    setUsername(e.target.value),
                     setErrMsg(""),
                     setValidName(USER_REGEX.test(username))
                   )}

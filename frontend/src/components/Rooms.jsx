@@ -43,8 +43,8 @@ export default function Rooms() {
           <div className="rooms-slider-container">
             {data?.map((room) => (
               <div class="rooms-slider" key={room._id}>
-                <img src={`/images/rooms/${room.img}.avif`} alt="room image" />
-                <div className="rooms__section-amenities">//</div>
+                <img src={`/images/rooms/${room.img}.avif`} alt={room.description} />
+                <div className="rooms__section-amenities"></div>
                 <h3>{room.type}</h3>
                 <p>{room.description}</p>
                 <div className="rooms__grid-price">

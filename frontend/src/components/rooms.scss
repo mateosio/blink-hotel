@@ -1,21 +1,15 @@
 $background-white: #FFFFFF;
 $background-black: #222222;
-$background-black-light: #292929;
 $background-grey: #333333;
-$background-grey-light: #F9F9F9;
-$background-footer: #F8F8F8;
-$letterColor-black: #111111;
 $letterColor-grey: #686868;
 $letterColor-grey-light: #777777;
 $archivo-font: Archivo;
 $old-standard-font: 'Old Standard TT';
 $roboto-font: 'Roboto';
 $weight-400: 400;
-$weight-600: 600;
 $weight-700: 700;
 $color-botton: #BEAD8E;
-$color-brown-light: #BDAC8D;
-$color-grey-light-letter: #C2C2C2;
+$background-grey-light: #F9F9F9;
 
 .rooms__about__section{
     background-color: $background-grey;
@@ -166,14 +160,12 @@ $color-grey-light-letter: #C2C2C2;
 
 .rooms__section-amenities{
     width: 256px;
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    height: 28px;
+    background-image: url(/images/amenities/amenities.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
     border: 2px solid $color-botton;
-    background-color: white;
+   
     margin: auto;
     margin-top: -24px;
     z-index: 1;
