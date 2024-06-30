@@ -9,7 +9,6 @@ export const getRooms = async () => {
     
     return rooms;    
   } catch (error) {
-    console.log(error);
       throw new Error("Internal Server Error")
   }
 };
@@ -23,8 +22,7 @@ export const getRoomDetail = async (id) => {
     return roomDetail;
     
   } catch (error) {
-    console.log(error);
-    throw new Error("Internal Server Error");
+      throw new Error("Internal Server Error");
   }
 };
 
@@ -63,7 +61,6 @@ export const updateReservation = async (id, changes, req) => {
   return updateOne;
   
   } catch (error) {
-    console.log("Error al actualizar el documento en el bloque catch del modelo", err);
-    throw err;
+      throw err;
   }  
 };

@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", async (req, res)=>{
     try {
-        console.log("entre a la ruta de ckecklogin");
         const cookies = req.cookies;
         const loggedIn = await checkLogin(cookies);
         

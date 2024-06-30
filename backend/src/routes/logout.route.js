@@ -5,13 +5,10 @@ const router = express.Router();
 
 router.get("/", async (req, res) =>{
     try {
-        console.log("Entro al router de logout");
         const cookies = req.cookies;
-        console.log("Cookies recibidas: ", cookies);
-
+        
         const result = await logout(cookies);
-        console.log("Se ejecutó la función logout del servicio y limpio las cookies");
-
+        
         res.clearCookie("refreshToken", { httpOnly: true, sameSite: 'None', secure: true });
         res.status(204).json({seEjecuto:"Se ejecutó el servicio y el route"});
         

@@ -5,8 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res)=>{
   try {
-    const {newAccessToken, newRefreshToken} = await handleRefreshToken(req);
-
+    const {newAccessToken, newRefreshToken} = await handleRefreshToken(req, res);
     res.cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
     res.status(200).json({newAccessToken});
     

@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 export const checkLogin = async (cookies) =>{
   try {
     if(!cookies?.refreshToken) { 
-      console.log("no tengo token en el servicio de checklogin"); 
       throw new Error("Usuario debe loguearse");
     };
   
@@ -15,7 +14,6 @@ export const checkLogin = async (cookies) =>{
     const verify = jwt.verify(refreshToken, config.refreshTokenSecret);
   
     const user = await User.findOne({ refreshToken });
-    console.log("usuario encontrado", user);
     const payload = {
       sub: user.username,
     };
@@ -46,7 +44,7 @@ export const login = async (username, password) => {
         };
 
         const accessToken = jwt.sign(payload, config.accessTokenSecret, {
-          expiresIn: "10m",
+          expiresIn: "5m",
         });
         const refreshToken = jwt.sign(payload, config.refreshTokenSecret, {
           expiresIn: "1d",

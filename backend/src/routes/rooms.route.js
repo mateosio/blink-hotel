@@ -31,7 +31,6 @@ router.patch("/:id/reservation", async (req, res) => {
     res.status(200).end();
   } catch (error) {
       if(error.message === "Dont have an access token"){
-        console.log("no tengo token");
         res.status(401).json({message: "Unathorized"})
       }
       else if(error.type){

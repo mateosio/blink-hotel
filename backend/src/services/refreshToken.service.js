@@ -5,7 +5,7 @@ import User from "../model/User.js";
 export const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.refreshToken) throw new Error("Unauthorized");
-
+  
   const refreshToken = cookies.refreshToken;
 
   //Limpio la cookie para luego enviar un nuevo access y refresh token.
@@ -16,7 +16,7 @@ export const handleRefreshToken = async (req, res) => {
   });
 
   const user = await User.findOne({ refreshToken });
-
+  
   // Detecto una posible reutilización de token.
   if (!user) {
     jwt.verify(
@@ -37,8 +37,8 @@ export const handleRefreshToken = async (req, res) => {
   // Evalúo el refresh token
   try {
     const verify = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-    if (user.username !== verify.username){
+    
+    if (user.username !== verify.sub){
       user.refreshToken = [...newRefreshTokenArray];
       const result = await user.save();
       throw new Error("Unauthorized")
@@ -57,8 +57,8 @@ export const handleRefreshToken = async (req, res) => {
   );
 
   // Saving refreshToken with current user
-  foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-  const result = await foundUser.save();
+  user.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+  const result = await user.save();
 
   return {newAccessToken, newRefreshToken};
 
