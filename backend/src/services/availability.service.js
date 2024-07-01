@@ -4,12 +4,17 @@ export const getAvailables = async (dates) => {
 
   try {
     const reservedRooms = await Room.find({
-      "roomReservations.startDate": { $lte: dates.endDate },
-      "roomReservations.endDate": { $gte: dates.startDate },
+      roomReservations: {
+        $elemMatch: {
+          startDate: { $lte: dates.endDate },
+          endDate: { $gte: dates.startDate },
+        },
+      },
     });
   
-    
+    console.log("habitaciones reservadas en la fecha seleccionada", reservedRooms);
     const allRooms = await Room.find();
+    console.log("todas las habitaciones", allRooms);
     
     if(reservedRooms.length === 0) return allRooms;
     
@@ -20,6 +25,7 @@ export const getAvailables = async (dates) => {
       });
     });
 
+    console.log("habitaciones que no estan reservadas en la fecha seleccionada", roomsAvailable);
     return roomsAvailable;
   } catch (error) {
     throw error
