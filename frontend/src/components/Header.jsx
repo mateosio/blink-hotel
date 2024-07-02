@@ -77,16 +77,16 @@ export default function Header() {
             </div>
           </div>
           <div className={`header__toogle ${!active ? "isActive" : ""}`}>
-            <Link to="/about" className="header__toogle-links">
+            <Link to="#" className="header__toogle-links">
               About Us
             </Link>
             <Link to="/rooms" className="header__toogle-links">
               Rooms
             </Link>
-            <Link to="/offers" className="header__toogle-links">
+            <Link to="#" className="header__toogle-links">
               Offers
             </Link>
-            <Link to="/contact" className="header__toogle-links">
+            <Link to="#" className="header__toogle-links">
               Contact
             </Link>
             {loggedIn && (
