@@ -77,16 +77,16 @@ export default function Header() {
             </div>
           </div>
           <div className={`header__toogle ${!active ? "isActive" : ""}`}>
-            <Link to="./about" className="header__toogle-links">
+            <Link to="/about" className="header__toogle-links">
               About Us
             </Link>
-            <Link to="./rooms-grid" className="header__toogle-links">
+            <Link to="/rooms" className="header__toogle-links">
               Rooms
             </Link>
-            <Link to="./offers" className="header__toogle-links">
+            <Link to="/offers" className="header__toogle-links">
               Offers
             </Link>
-            <Link to="./contact" className="header__toogle-links">
+            <Link to="/contact" className="header__toogle-links">
               Contact
             </Link>
             {loggedIn && (
@@ -96,12 +96,12 @@ export default function Header() {
             )}
           </div>
           <div className="header__menuRight">
-            <a href="../login">
+            <Link to="/login">
               <img src={accountIcon} alt="Account icon" />
-            </a>
-            <a href="../rooms-grid">
+            </Link>
+            <Link to="/rooms">
               <img src={searchIcon} alt="Search icon" />
-            </a>
+            </Link>
           </div>
         </div>
       </header>
