@@ -48,7 +48,7 @@ const Register = () => {
 
       setSuccess(true);
       setNewUsername(response.data)
-      //clear state and controlled inputs
+      
       setUsername("");
       setPwd("");
       setMatchPwd("");
@@ -70,7 +70,7 @@ const Register = () => {
         <section>
           <h1> `${newUsername} the process was successfully!`</h1>
           <p>
-            <Link>Sign In</Link>
+            <Link to={"/login"}>Sign In</Link>
           </p>
         </section>
       ) : (
