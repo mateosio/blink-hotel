@@ -24,7 +24,8 @@ export const handleRefreshToken = async (req, res) => {
       config.refreshTokenSecret,
       async (error, decoded) => {
         if (error) throw new Error("Forbidden");
-        const hackedUser = await User.findOne({ username: decoded.username });
+        const username = decoded.sub;
+        const hackedUser = await User.findOne({ username: username });
         hackedUser.refreshToken = [];
         const result = await hackedUser.save();
         throw new Error("Unauthorized");
