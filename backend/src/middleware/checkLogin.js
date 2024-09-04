@@ -17,7 +17,7 @@ export const checkLogin = async (req, res, next) => {
   } catch (error) {
     let statusCode;
 
-    if (error.message === "Usuario debe loguearse" || error.name === "TokenExpiredError") {
+    if (error.message === "Usuario debe loguearse" || error.name === "TokenExpiredError"){
       statusCode = 401;
     } else {
       statusCode = 500;
