@@ -1,31 +1,7 @@
 import express from "express";
-import { checkLogin, login } from "../services/auth.service.js";
+import { login } from "../services/auth.service.js";
 
 const router = express.Router();
-
-
-router.get("/", async (req, res)=>{
-    try {
-        const cookies = req.cookies;
-        const loggedIn = await checkLogin(cookies);
-        
-        const username = loggedIn.username;
-        const accessToken = loggedIn.accessToken;
-        
-        res.status(200).json({username, accessToken});
-    }
-    catch (error) {
-        let statusCode;
-      
-        if(error.message === "Usuario debe loguearse" || error.name === "TokenExpiredError"){
-            statusCode = 401;
-        }else{
-            statusCode = 500;
-        };      
-        
-        res.status(statusCode).json({"error": error})
-    }
-});
 
 router.post("/", async (req, res)=>{
     try {

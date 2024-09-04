@@ -1,5 +1,6 @@
 import express from "express";
 import { getRooms, getRoomDetail, updateReservation } from "../services/rooms.service.js";
+import { checkLogin } from "../middleware/checkLogin.js";
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id/reservation", async (req, res) => {
+router.patch("/:id/reservation", checkLogin, async (req, res) => {
   try {
     const { id } = req.params;
     const change = req.body;
@@ -30,10 +31,7 @@ router.patch("/:id/reservation", async (req, res) => {
     const update = await updateReservation(id, change, req);
     res.status(200).end();
   } catch (error) {
-      if(error.message === "Dont have an access token"){
-        res.status(401).json({message: "Unathorized"})
-      }
-      else if(error.type){
+      if(error.message === "Dont have an access token" || error.type){
         res.sendStatus(403)
       } else{
         res.status(500).json({"message" : error.message})

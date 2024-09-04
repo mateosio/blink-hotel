@@ -4,29 +4,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-export const checkLogin = async (cookies) =>{
-  try {
-    if(!cookies?.refreshToken) { 
-      throw new Error("Usuario debe loguearse");
-    };
-  
-    const refreshToken = cookies.refreshToken;
-    const verify = jwt.verify(refreshToken, config.refreshTokenSecret);
-  
-    const user = await User.findOne({ refreshToken });
-    const payload = {
-      sub: user.username,
-    };
-    const accessToken = jwt.sign(payload, config.accessTokenSecret);
-    const username = user.username;
-    return {username, accessToken};
-    
-  } catch (error) {
-    throw error;
-  }
-}
-
-
 export const login = async (username, password) => {
   try {
     

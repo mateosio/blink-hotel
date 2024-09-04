@@ -1,7 +1,5 @@
 
 export async function makeReservation({id, changes, accessToken, axiosInstance}) {
-  console.log("previo makereservations", accessToken);
- 
   try {
     console.log("Se lanza makereservations");
     const response = await axiosInstance.patch(

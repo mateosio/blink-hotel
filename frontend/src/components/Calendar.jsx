@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth.jsx";
-import axios, {useAxios} from "../utils/axios.js"
+import axios, { useAxios } from "../utils/axios.js";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { Alert, Stack } from "@mui/material";
@@ -30,7 +30,6 @@ export default function Calendar({ id, reservations }) {
   const location = useLocation();
 
   const queryClient = useQueryClient();
-  
 
   const addBookingMutation = useMutation({
     mutationFn: makeReservation,
@@ -42,23 +41,29 @@ export default function Calendar({ id, reservations }) {
       }, 2000);
     },
     onError: async (error) => {
-      if(error.response && (error.response.status === 401 || error.response.status === 403)){
-        setAuth({})
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setAuth({});
         setShowAlertLogin(true);
         setTimeout(() => {
           setShowAlertLogin(false);
         }, 2000);
-      } else if(error.response.status === 409){
+        navigate("/login", {
+          state: { from: location.pathname },
+          replace: true,
+        });
+      } else if (error.response.status === 409) {
         setShowAlertUserLogin(true);
-        setTimeout(()=>{
+        setTimeout(() => {
           setShowAlertUserLogin(false);
-        }, 2000)
-      }
-        else{
-      setShowAlertErrorBooking(true);
-      setTimeout(() => {
-        setShowAlertErrorBooking(false);
-      }, 2000);
+        }, 2000);
+      } else {
+        setShowAlertErrorBooking(true);
+        setTimeout(() => {
+          setShowAlertErrorBooking(false);
+        }, 2000);
       }
     },
   });
@@ -70,7 +75,7 @@ export default function Calendar({ id, reservations }) {
   //Recibo como argumento el rango de fechas seleccionado en el calendario. Si en dicho rango no existen fechas deshabilitadas actualizo los state con la fecha de inicio y final del rango, en caso contrario no permito esta acción.
   const handleStartDateChange = (date) => {
     const [start, end] = date;
-    
+
     if (start) {
       setStartDate(start);
 
@@ -81,10 +86,19 @@ export default function Calendar({ id, reservations }) {
         const endDateCalendar = format(new Date(end), "yyyy-MM-dd");
 
         const isWithinRange = disabledRanges.some((disable) => {
-          const disableStartDate = format(new Date(disable.startDate), "yyyy-MM-dd");
-          const disableEndDate = format(new Date(disable.endDate), "yyyy-MM-dd");
+          const disableStartDate = format(
+            new Date(disable.startDate),
+            "yyyy-MM-dd"
+          );
+          const disableEndDate = format(
+            new Date(disable.endDate),
+            "yyyy-MM-dd"
+          );
 
-          return startDateCalendar < disableStartDate && endDateCalendar >= disableEndDate;
+          return (
+            startDateCalendar < disableStartDate &&
+            endDateCalendar >= disableEndDate
+          );
         });
 
         if (isWithinRange) {
@@ -98,17 +112,19 @@ export default function Calendar({ id, reservations }) {
         setEndDate(null);
       }
     } else {
-      setStartDate(null);   
+      setStartDate(null);
     }
   };
- 
 
   // Recibo como argumento cada una de las fechas que se renderiza en el calendario y lo comparo con las fechas de reserva existentes que traigo del backend (disabledRanges). En el caso que se encuentra dentro del rango el metodo some devuelve true y cambio la respuesta a false con "!" para que el calendario sepa que debe deshabilitar la fecha analizada.
   const isDateDisabled = (date) => {
     const dateCalendar = format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     return !disabledRanges.some((range) => {
-      const startDateDisabled = format(range.startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+      const startDateDisabled = format(
+        range.startDate,
+        "yyyy-MM-dd'T'HH:mm:ss'Z'"
+      );
       const endDateDisabled = format(range.endDate, "yyyy-MM-dd'T'HH:mm:ss'Z'");
       return (
         dateCalendar >= startDateDisabled && dateCalendar <= endDateDisabled
@@ -116,7 +132,6 @@ export default function Calendar({ id, reservations }) {
     });
   };
 
-  
   const handleReserve = async () => {
     if (startDate === null || endDate === null) {
       setShowAlertRange(true);
@@ -126,52 +141,19 @@ export default function Calendar({ id, reservations }) {
       return;
     }
 
-   
-        //chequear si tengo un access token
-        if(auth?.accessToken){
-          const accessToken = auth.accessToken;
-          console.log("Tengo accessToken");
-          const startDateCalendar = format(startDate, "yyyy-MM-dd");
-          const endDateCalendar = format(endDate, "yyyy-MM-dd");
-          const changes = {
-          startDate: startDateCalendar,
-          endDate: endDateCalendar,
-          };
-          
-        console.log("Tengo un accessToken y lanzo la reserva", changes);
-        addBookingMutation.mutate({ id, changes, accessToken, axiosInstance });
-    
-        //Hago que en el calendario deje de estar seleccionado el rango.
-        setStartDate(null);
-        setEndDate(null);
-        } else{
-          try {
+    const accessToken = auth?.accessToken || undefined;
+    const startDateCalendar = format(startDate, "yyyy-MM-dd");
+    const endDateCalendar = format(endDate, "yyyy-MM-dd");
+    const changes = {
+      startDate: startDateCalendar,
+      endDate: endDateCalendar,
+    };
 
-          console.log("No tengo access Token, lanzo el get de axios para chequear si estoy logueado");
-          const response = await axios.get("/login");
-          const username = response.data.username;
-          const accessToken = response.data.accessToken;
-          setAuth({ username, accessToken });
-        
-          const startDateCalendar = format(startDate, "yyyy-MM-dd");
-          const endDateCalendar = format(endDate, "yyyy-MM-dd");
-          const changes = {
-            startDate: startDateCalendar,
-            endDate: endDateCalendar,
-            };
-            
-          console.log("entre al else de reservas para lanzar la mutación", changes);
-          
-          addBookingMutation.mutate({ id, changes, accessToken, axiosInstance });
-      
-          setStartDate(null);
-          setEndDate(null);
-        } catch (error) {
-          console.log("ingrese al catch?");
-            navigate("/login", {state: { from: location.pathname }, replace: true});
-          }
-        }
-    
+    addBookingMutation.mutate({ id, changes, accessToken, axiosInstance });
+
+    //Hago que en el calendario deje de estar seleccionado el rango.
+    setStartDate(null);
+    setEndDate(null);
   };
 
   return (
